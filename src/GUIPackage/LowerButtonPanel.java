@@ -33,6 +33,7 @@ public class LowerButtonPanel extends JPanel {
      */
     private void initComponents() {
         
+    	System.out.println("init JPanel");
     	//Initialize Buttons
     	otherButton = new JButton();
     	selectConvoButton = new JButton();
@@ -56,9 +57,9 @@ public class LowerButtonPanel extends JPanel {
             gbc.gridheight = 1;
             gbc.gridwidth = 2;
             gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.ipadx = 5;
-            gbc.insets = new Insets(10,10,20,5); //top, left, bottom, right
+            //gbc.gridy = 0;
+            //gbc.ipadx = 5;
+            gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
             gbc.anchor = gbc.LINE_START; 
         this.add(selectConvoButton, gbc);
         
@@ -73,17 +74,15 @@ public class LowerButtonPanel extends JPanel {
             gbc = new GridBagConstraints();
             gbc.gridheight = 1;
             gbc.gridwidth = 2;
-            gbc.gridx = 1;
-            gbc.gridy = 0;
-            gbc.ipadx = 5;
-            gbc.insets = new Insets(10,5,20,10); //top, left, bottom, right
+            gbc.gridx = 2;
+            //gbc.gridy = 0;
+            //gbc.ipadx = 5;
+            gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
             gbc.anchor = gbc.LINE_END; 
         this.add(otherButton, gbc);
         
-        setBorder(null); 
-        getAccessibleContext().setAccessibleName("Lower Button Panel");
         
-        setOpaque(false);
+        //setOpaque(false);
     }    
     
     /***ACTION LISTENERS***/

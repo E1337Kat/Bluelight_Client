@@ -35,9 +35,4 @@ public class ReqListModel extends AbstractListModel {
         this.reqs = array;
     }
 
-    public void sort(){
-        Collections.sort(reqs);
-        fireContentsChanged(this, 0, reqs.size());
-    }
-
 }
