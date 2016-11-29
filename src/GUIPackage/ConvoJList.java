@@ -16,7 +16,7 @@ public class ConvoJList extends JList {
     String[] fakeData = {"Safe Ride Requested", "Officer on route", "thanks."};
     
     public ConvoJList() {
-        setCellRenderer(new ReqCellRenderer());
+        setCellRenderer(new ConvoCellRenderer());
         setListData(fakeData);
     }
     

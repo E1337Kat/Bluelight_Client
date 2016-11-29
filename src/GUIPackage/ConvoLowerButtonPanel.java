@@ -76,7 +76,7 @@ public class ConvoLowerButtonPanel extends JPanel {
             //gbc.gridy = 0;
             //gbc.ipadx = 5;
             gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_START; 
+            gbc.anchor = gbc.LINE_END; 
         this.add(selectConvoButton, gbc);
         
         otherButton.setText("other?");
@@ -86,16 +86,7 @@ public class ConvoLowerButtonPanel extends JPanel {
                 otherButtonActionPerformed(evt);
             }
         });
-        	//set new grid bag constraints
-            gbc = new GridBagConstraints();
-            gbc.gridheight = 1;
-            gbc.gridwidth = 2;
-            gbc.gridx = 2;
-            gbc.gridy = 2;
-            //gbc.ipadx = 5;
-            gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_END; 
-        this.add(otherButton, gbc);
+        	
         
         
         //setOpaque(false);

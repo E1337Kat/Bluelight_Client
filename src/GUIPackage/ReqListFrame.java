@@ -11,6 +11,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -21,7 +23,7 @@ import javax.swing.event.ListSelectionListener;
 public class ReqListFrame extends JFrame 
                           implements ListSelectionListener {
     
-    private JList<ArrayList<String>> list;
+    private ReqJList<ArrayList<String>> list;
     private DefaultListModel listModel;
     private JScrollPane listScroller;
     private LowerButtonPanel lowerButtonPanel;
@@ -46,17 +48,17 @@ public class ReqListFrame extends JFrame
         
         listModel = new DefaultListModel();
         
-        list = new JList(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        list.setVisibleRowCount(-1);
-        list.addListSelectionListener(this);
+        list = new ReqJList(listModel);
+        //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //list.setLayoutOrientation(JList.VERTICAL);
+        //list.setVisibleRowCount(-1);
+        //list.addListSelectionListener(this);
         
         System.out.println("Created JList");
         
-        listScroller = new JScrollPane(list);
+        //listScroller = new JScrollPane(list);
         
-        listScroller.setPreferredSize(new Dimension(500, 200));
+        list.setPreferredSize(new Dimension(500, 200));
         lowerButtonPanel.setPreferredSize(new Dimension(500, 20));
         
 	    	//set new grid bag constraints
@@ -69,7 +71,7 @@ public class ReqListFrame extends JFrame
 	        //gbc.ipadx = 5;
 	        //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
 	        gbc.anchor = gbc.PAGE_START; 
-        this.add(listScroller, gbc);
+        this.add(list, gbc);
         
 	      	//set new grid bag constraints
 	        gbc = new GridBagConstraints();
@@ -90,6 +92,20 @@ public class ReqListFrame extends JFrame
         this.repaint();
     }
     
+    public void addData(Object obj) {
+    	list.addData(obj);
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void deleteData(int index) {
+    	list.deleteData(index);
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
     //This method is required by ListSelectionListener.
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
@@ -98,7 +114,7 @@ public class ReqListFrame extends JFrame
             
  
             } else {
-            
+            	lowerButtonPanel.setSelection(list.getSelectedIndex());
             }
         }
     }

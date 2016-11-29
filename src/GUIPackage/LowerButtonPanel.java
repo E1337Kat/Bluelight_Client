@@ -13,6 +13,7 @@ public class LowerButtonPanel extends JPanel {
 	 // Variables declaration 
     private JButton otherButton;
     private JButton selectConvoButton;
+    private int jListSelection;
     // End of variables declaration
     
     /**
@@ -45,7 +46,7 @@ public class LowerButtonPanel extends JPanel {
         this.setLayout(gridBag);
         
         //Row One
-        selectConvoButton.setText("Select");
+        selectConvoButton.setText("<html><u>S</u>elect</html>");
         selectConvoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -63,7 +64,7 @@ public class LowerButtonPanel extends JPanel {
             gbc.anchor = gbc.LINE_START; 
         this.add(selectConvoButton, gbc);
         
-        otherButton.setText("other?");
+        otherButton.setText("<html><u>E</u>xit</html>");
         otherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -92,7 +93,20 @@ public class LowerButtonPanel extends JPanel {
      * @param evt idk lol
      */
     private void selectConvoButtonActionPerformed(ActionEvent evt) {
-    	//TODO: select Conversation
+    	/* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ConvoFrame reqConvoFrame = new ConvoFrame();
+                //ReqListFrame.setIconImage(img.getImage());
+                reqConvoFrame.setTitle("Request #" + getSelection());
+                
+                reqConvoFrame.setDefaultCloseOperation(reqConvoFrame.EXIT_ON_CLOSE);
+                reqConvoFrame.pack();
+                
+                reqConvoFrame.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -102,4 +116,12 @@ public class LowerButtonPanel extends JPanel {
     private void otherButtonActionPerformed(ActionEvent evt) {
         //TODO: confirmation dialog, if yes, delete, else do nothing
     }
+
+	public void setSelection(int selectedIndex) {
+		jListSelection = selectedIndex;		
+	}
+	
+	public int getSelection() {
+		return jListSelection;
+	}
 }

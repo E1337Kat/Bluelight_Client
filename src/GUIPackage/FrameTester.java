@@ -28,7 +28,7 @@ public class FrameTester {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ReqConvoFrame reqConvoFrame = new ReqConvoFrame();
+                ConvoFrame reqConvoFrame = new ConvoFrame();
                 //ReqListFrame.setIconImage(img.getImage());
                 reqConvoFrame.setTitle(UNI_NAME);
                 

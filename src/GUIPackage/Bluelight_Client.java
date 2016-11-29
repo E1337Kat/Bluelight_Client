@@ -13,6 +13,7 @@ import javax.swing.*;
  */
 public class Bluelight_Client {
     
+	private static ReqListFrame reqListFrame;
     public static final String LOOKANDFEEL = "System";
     protected static final String UNI_NAME = "University of Tennessee at Chattanooga";
 
@@ -28,7 +29,7 @@ public class Bluelight_Client {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ReqListFrame reqListFrame = new ReqListFrame();
+                reqListFrame = new ReqListFrame();
                 //ReqListFrame.setIconImage(img.getImage());
                 reqListFrame.setTitle(UNI_NAME);
                 
@@ -36,9 +37,12 @@ public class Bluelight_Client {
                 reqListFrame.pack();
                 
                 reqListFrame.setVisible(true);
+                
             }
         });
         // TODO code application logic here
+        
+       
     }
     
     /*
