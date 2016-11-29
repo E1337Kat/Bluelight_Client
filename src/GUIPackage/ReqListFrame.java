@@ -50,7 +50,7 @@ public class ReqListFrame extends JFrame
         //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //list.setLayoutOrientation(JList.VERTICAL);
         //list.setVisibleRowCount(-1);
-        //list.addListSelectionListener(this);
+        list.addListSelectionListener(this);
         
         System.out.println("Created JList");
         
@@ -97,8 +97,6 @@ public class ReqListFrame extends JFrame
         if (e.getValueIsAdjusting() == false) {
  
             if (list.getSelectedIndex() == -1) {
-            
- 
             } else {
             	lowerButtonPanel.setSelection(list.getSelectedIndex());
             }

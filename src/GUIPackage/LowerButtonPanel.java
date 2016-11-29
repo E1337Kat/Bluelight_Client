@@ -119,6 +119,7 @@ public class LowerButtonPanel extends JPanel {
 
 	public void setSelection(int selectedIndex) {
 		jListSelection = selectedIndex;		
+		System.out.println(selectedIndex);
 	}
 	
 	public int getSelection() {
