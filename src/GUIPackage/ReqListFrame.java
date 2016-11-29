@@ -24,7 +24,7 @@ public class ReqListFrame extends JFrame
                           implements ListSelectionListener {
     
     private ReqJList<ArrayList<String>> list;
-    private DefaultListModel listModel;
+    private ReqListModel listModel;
     private JScrollPane listScroller;
     private LowerButtonPanel lowerButtonPanel;
     
@@ -46,9 +46,7 @@ public class ReqListFrame extends JFrame
         
         GridBagConstraints gbc;
         
-        listModel = new DefaultListModel();
-        
-        list = new ReqJList(listModel);
+        list = new ReqJList<ArrayList<String>>();
         //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //list.setLayoutOrientation(JList.VERTICAL);
         //list.setVisibleRowCount(-1);
@@ -89,22 +87,10 @@ public class ReqListFrame extends JFrame
         
         
         System.out.println("added both panels");
+        list.refresh();
         this.repaint();
     }
     
-    public void addData(Object obj) {
-    	list.addData(obj);
-        
-        this.revalidate();
-        this.repaint();
-    }
-    
-    public void deleteData(int index) {
-    	list.deleteData(index);
-        
-        this.revalidate();
-        this.repaint();
-    }
     
     //This method is required by ListSelectionListener.
     public void valueChanged(ListSelectionEvent e) {

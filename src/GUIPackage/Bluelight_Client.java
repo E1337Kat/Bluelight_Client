@@ -5,6 +5,9 @@
  */
 package GUIPackage;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.*;
 
 /**
@@ -22,6 +25,13 @@ public class Bluelight_Client {
      */
     public static void main(String[] args) {
         
+    	ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre345 - NAME=Kellie Peace");
+        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre234 - NAME=Ellie Prean");
+        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pra457 - NAME=Kel Kyl");
+        ArrayList a = ReqListModel.getModel().getRequestList();
+        for (Iterator<ArrayList> i = a.iterator(); i.hasNext(); i.next() ) {
+        	System.out.println(i.toString());
+        }
         /* Set Look and Feel of program to system look and feel if possible*/
         initLookAndFeel();
         
@@ -41,7 +51,9 @@ public class Bluelight_Client {
             }
         });
         // TODO code application logic here
-        
+        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre345 - NAME=Kellie Peace");
+        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre234 - NAME=Ellie Prean");
+        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pra457 - NAME=Kel Kyl");
        
     }
     

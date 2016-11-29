@@ -10,38 +10,30 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class ReqJList<T> extends JList implements ListSelectionListener {
-	private T t;
-	private JList list;
-	private DefaultListModel listModel;
+public class ReqJList<T> extends JList<T> implements ListSelectionListener {
+	
 	private JScrollPane listScroller;
 	private int JListSelection;
 	String[] fakeData = {"Request for Safe Ride at Library - UTCID=pre345 - NAME=Kellie Peace", 
 			"Request for Safe Ride at Library - UTCID=pre234 - NAME=Ellie Prean",
 			"Request for Safe Ride at Library - UTCID=pra457 - NAME=Kel Kyl"};
 	
-	public ReqJList(DefaultListModel d) {
-		setListData(fakeData);
-		listModel = d;
+	public ReqJList () {
+		//setListData((T[]) fakeData);
 		
+        super();
+        this.setModel(ReqListModel.getModel());
+        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.setLayoutOrientation(JList.VERTICAL);
+        this.setVisibleRowCount(-1);
         
-        list = new JList(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLayoutOrientation(JList.VERTICAL);
-        list.setVisibleRowCount(-1);
-        
-        listScroller = new JScrollPane(list);
-    	listScroller.setPreferredSize(new Dimension(500, 200));
-    	
-    	this.revalidate();
-        this.repaint();
 	}
 	
-	public void addData(Object obj) {
-    	listModel.addElement(obj);
-    	list = new JList(listModel);
+	public void addData(Object o) {
+		ReqListModel.getModel().addElement(o);
     	
-    	listScroller = new JScrollPane(list);
+    	
+    	listScroller = new JScrollPane(new ReqJList());
     	listScroller.setPreferredSize(new Dimension(500, 200));
         
         this.revalidate();
@@ -49,10 +41,18 @@ public class ReqJList<T> extends JList implements ListSelectionListener {
     }
     
     public void deleteData(int index) {
-    	listModel.remove(index);
-    	list = new JList(listModel);
+    	ReqListModel.getModel().remove(index);
     	
-    	listScroller = new JScrollPane(list);
+    	listScroller = new JScrollPane(new ReqJList());
+    	listScroller.setPreferredSize(new Dimension(500, 200));
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void refresh(){
+    	
+    	listScroller = new JScrollPane(new ReqJList());
     	listScroller.setPreferredSize(new Dimension(500, 200));
         
         this.revalidate();
@@ -71,11 +71,11 @@ public class ReqJList<T> extends JList implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent e) {
 		if (e.getValueIsAdjusting() == false) {
 			 
-            if (list.getSelectedIndex() == -1) {
+            if (this.getSelectedIndex() == -1) {
             
  
             } else {
-            	setSelection(list.getSelectedIndex());
+            	setSelection(this.getSelectedIndex());
             }
         }
 	}

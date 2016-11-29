@@ -101,7 +101,7 @@ public class LowerButtonPanel extends JPanel {
                 //ReqListFrame.setIconImage(img.getImage());
                 reqConvoFrame.setTitle("Request #" + getSelection());
                 
-                reqConvoFrame.setDefaultCloseOperation(reqConvoFrame.EXIT_ON_CLOSE);
+                reqConvoFrame.setDefaultCloseOperation(reqConvoFrame.DISPOSE_ON_CLOSE);
                 reqConvoFrame.pack();
                 
                 reqConvoFrame.setVisible(true);
