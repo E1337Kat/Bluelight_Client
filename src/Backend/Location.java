@@ -23,6 +23,32 @@ public class Location {
 		yCoord = y;
 	}
 	
+	public Coord getXCoordinate() {
+		return xCoord;
+	}
+	
+	public void setXCoordinate(Coord x) {
+		xCoord = x;
+	}
+	
+	public Coord getYCoordinate() {
+		return yCoord;
+	}
+	
+	public void setYCoordinate(Coord y) {
+		yCoord = y;
+	}
+	
+	public Coord[] getCoordinates() {
+		Coord[] c = {xCoord, yCoord};
+		return c;
+	}
+	
+	public void setCoordinates(Coord x, Coord y) {
+		xCoord = x;
+		yCoord = y;
+	}
+	
 	@Override
 	public String toString() {
 		return "(" + xCoord.toString() + "," + yCoord.toString() + ")";

@@ -2,9 +2,9 @@ package GUIPackage;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +15,6 @@ public class LowerButtonPanel extends JPanel {
     private JButton otherButton;
     private JButton selectConvoButton;
     private int jListSelection;
-    private long convoID;
     // End of variables declaration
     
     /**
@@ -63,7 +62,7 @@ public class LowerButtonPanel extends JPanel {
             //gbc.gridy = 0;
             //gbc.ipady = 10;
             //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_START; 
+            gbc.anchor = GridBagConstraints.LINE_START; 
         this.add(selectConvoButton, gbc);
         
         otherButton.setText("<html><u>E</u>xit</html>");
@@ -81,7 +80,7 @@ public class LowerButtonPanel extends JPanel {
             //gbc.gridy = 0;
             //gbc.ipady = 10;
             //gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_END; 
+            gbc.anchor = GridBagConstraints.LINE_END; 
         this.add(otherButton, gbc);
         
         
@@ -105,9 +104,9 @@ public class LowerButtonPanel extends JPanel {
             public void run() {
                 ConvoFrame convoFrame = new ConvoFrame(ReqListModel.getModel().getRequestList().get((int) getSelection()), getSelection());
                 //ReqListFrame.setIconImage(img.getImage());
-                convoFrame.setTitle("Request #" + getSelection());
-                
-                convoFrame.setDefaultCloseOperation(convoFrame.DISPOSE_ON_CLOSE);
+                convoFrame.setTitle("Request #" + ReqListModel.getModel().getRequestList().get((int) getSelection()).getConvoID().toString());
+                convoFrame.setLocationByPlatform(true);
+                convoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 convoFrame.pack();
                 
                 convoFrame.setVisible(true);

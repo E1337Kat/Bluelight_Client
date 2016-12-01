@@ -9,24 +9,24 @@ public class ConvoListModel<T> extends DefaultListModel<T>
 							implements ListModel<T> {
 
 	
-	private ArrayList<String> convo;
+	private ArrayList<T> convo;
 	
     public ConvoListModel( ) {
     	super();
-    	convo = new ArrayList<String>();
+    	convo = new ArrayList<T>();
     }
     
-    public ConvoListModel(ArrayList<String> s) {
+    public ConvoListModel(ArrayList<T> s) {
     	super();
-    	convo = new ArrayList<String>();
-    	for (String i : s) {
-    		this.addElement((T)i);
+    	convo = new ArrayList<T>();
+    	for (T i : s) {
+    		this.addElement(i);
     	}
     }
     
     @Override
 	public void addElement(T t) {
-    	convo.add((String)t);
+    	convo.add(t);
     	super.addElement(t);
     	System.out.println("added obj");
     }
@@ -39,7 +39,7 @@ public class ConvoListModel<T> extends DefaultListModel<T>
 	@Override
 	public T getElementAt(int arg0) {
 		// TODO Auto-generated method stub
-		return (T)convo.get(arg0);
+		return convo.get(arg0);
 	}
 
 	@Override
@@ -48,11 +48,11 @@ public class ConvoListModel<T> extends DefaultListModel<T>
 		return convo.size();
 	}
 	
-	public ArrayList<String> getConvoList(){
+	public ArrayList<T> getConvoList(){
         return convo;
     }
 
-    public void setList(ArrayList<String> array){
+    public void setList(ArrayList<T> array){
         this.convo = array;
     }
 

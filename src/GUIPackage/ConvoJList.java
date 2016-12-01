@@ -21,7 +21,6 @@ public class ConvoJList extends JList {
     
 	private ConvoFrame parent;
 	private JScrollPane listScroller;
-	private ConvoListModel listModel;
     String[] fakeData = {"Safe Ride Requested", "Officer on route", "thanks."};
     
     public ConvoJList() {
@@ -41,30 +40,9 @@ public class ConvoJList extends JList {
         this.setVisibleRowCount(-1);
     }
     
-//    public void addData(Object o) {
-//    	((Request) ReqListModel.getModel().elementAt(parent.getSelection())).getConvoListModel().addElement(o);
-//    	
-//    	
-//    	listScroller = new JScrollPane(new ReqJList());
-//    	listScroller.setPreferredSize(new Dimension(500, 200));
-//        
-//        this.revalidate();
-//        this.repaint();
-//    }
-//    
-//    public void deleteData(int index) {
-//    	((Request) ReqListModel.getModel().elementAt(parent.getSelection())).getConvoListModel().remove(index);
-//    	
-//    	listScroller = new JScrollPane(new ReqJList());
-//    	listScroller.setPreferredSize(new Dimension(500, 200));
-//        
-//        this.revalidate();
-//        this.repaint();
-//    }
-    
     public void refresh(){
     	
-    	listScroller = new JScrollPane(new ReqJList());
+    	listScroller = new JScrollPane(new ConvoJList());
     	listScroller.setPreferredSize(new Dimension(500, 200));
         
         this.revalidate();

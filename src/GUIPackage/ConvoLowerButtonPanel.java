@@ -1,25 +1,30 @@
 package GUIPackage;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import Backend.Request;
 
 public class ConvoLowerButtonPanel extends JPanel {
 	
 	 // Variables declaration 
-    private JComboBox comboSelection;
+	private JLabel otherLabel;
+	private JTextField textField;
+    private JComboBox<String> comboSelection;
     private JButton sendMsgButton;
+    private JButton purgeButton;
     
-    private String[] testResponses = {"Hello", "Officer on way", 
-        "All units busy, plese hold"};
+    private String[] defaultResponses = {"Officer on their way, please stay where you are.", 
+        "All units busy, please stay where you are.", "All officers busy, can you wait 5 minutes?", "other"};
     // End of variables declaration
     
     /**
@@ -42,8 +47,11 @@ public class ConvoLowerButtonPanel extends JPanel {
         
     	System.out.println("init JPanel");
     	//Initialize Buttons
-        comboSelection = new JComboBox(testResponses);
+    	otherLabel = new JLabel("other");
+    	textField = new JTextField("");
+        comboSelection = new JComboBox<String>(defaultResponses);
     	sendMsgButton = new JButton();
+    	purgeButton = new JButton();
     	
         GridBagLayout gridBag = new GridBagLayout();
         GridBagConstraints gbc;
@@ -53,6 +61,23 @@ public class ConvoLowerButtonPanel extends JPanel {
         
         //Row One
         //comboBox stuff
+        
+        //Row One
+        /*  JLabel:             ComboBox^  SendMessage
+         * 	+----------------+
+         *  |    TextField   |  
+         *  |    TextField   |
+         *  |    TextField   |
+         *  +----------------+             CompleteRequest
+         */
+        //otherLabel
+        	gbc = new GridBagConstraints();
+        	gbc.gridheight = 1;
+        	gbc.gridwidth = 4;
+        	gbc.gridx = 0;
+        	gbc.anchor = GridBagConstraints.LINE_START;
+        this.add(otherLabel);
+        
         comboSelection.setSelectedIndex(-1);
         comboSelection.addActionListener(new ActionListener() {
         	@Override
@@ -63,10 +88,11 @@ public class ConvoLowerButtonPanel extends JPanel {
         gbc = new GridBagConstraints();
             gbc.gridheight = 1;
             gbc.gridwidth = 2;
-            gbc.gridx = 0;
+            gbc.gridx = 4;
             //gbc.insets = new Insets(10,10,5,5);
-            gbc.anchor = gbc.LINE_START;
+            gbc.anchor = GridBagConstraints.LINE_START;
         this.add(comboSelection, gbc);
+        
         
         
         sendMsgButton.setText("Send Message");
@@ -80,22 +106,48 @@ public class ConvoLowerButtonPanel extends JPanel {
             gbc = new GridBagConstraints();
             gbc.gridheight = 1;
             gbc.gridwidth = 2;
-            gbc.gridx = 2;
+            gbc.gridx = 6;
             //gbc.gridy = 0;
             //gbc.ipadx = 5;
             //gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_END; 
+            gbc.anchor = GridBagConstraints.LINE_END; 
         this.add(sendMsgButton, gbc);
         
         
-       
-        	
+        //Row Two
+        //JTextField
+        textField.setPreferredSize(new Dimension(200, 100));
+        	gbc = new GridBagConstraints();
+        	gbc.gridheight = 3;
+        	gbc.gridwidth = 4;
+        	gbc.gridy = 1;
+        	gbc.anchor = GridBagConstraints.CENTER;
+        	gbc.fill = GridBagConstraints.BOTH;
+        this.add(textField, gbc);
         
+        purgeButton.setText("Mark as Done");
+        purgeButton.addActionListener(new ActionListener() {
+        	@Override
+            public void actionPerformed(ActionEvent evt) {
+                purgeButtonActionPerformed(evt);
+            }
+        });
+        	gbc = new GridBagConstraints();
+        	gbc.gridheight = 1;
+        	gbc.gridwidth = 2;
+        	gbc.gridx = 6;
+        	gbc.gridy = 3;
+        	gbc.anchor = GridBagConstraints.LINE_END;
+        this.add(purgeButton, gbc);
         
+        this.revalidate();
+        this.repaint();
         //setOpaque(false);
     }    
     
-    /***ACTION LISTENERS***/
+    
+
+	/***ACTION LISTENERS***/
     
     protected void comboSelectionActionPerformed(ActionEvent evt) {
 		// TODO Auto-generated method stub
@@ -112,11 +164,21 @@ public class ConvoLowerButtonPanel extends JPanel {
                     "Please choose a response from the left!");
     	} else {
     		ConvoFrame parent = (ConvoFrame) this.getTopLevelAncestor();
-    		( (Request) ReqListModel.getModel().getRequestList().get(parent.getSelection())).getConvoListModel().addElement(comboSelection.getSelectedItem().toString());
+    		if (comboSelection.getSelectedItem().toString() == "other") {
+    			( (Request) ReqListModel.getModel().getRequestList().get(parent.getSelection())).getConvoListModel().addElement(textField.getText());
+    		} else {
+	    		( (Request) ReqListModel.getModel().getRequestList().get(parent.getSelection())).getConvoListModel().addElement(comboSelection.getSelectedItem().toString());
+	    		
+    		}
+    		
     		parent.revalidate();
-    		parent.repaint();
+	    	parent.repaint();
+    		
     	}
     }
 
-    
+    private void purgeButtonActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
 }

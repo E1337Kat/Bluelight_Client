@@ -57,6 +57,12 @@ public class Coord {
 		//TODO: infer Coords from relative location
 	}
 	
+	public void setCoordinates(int d, int m, double s) {
+		degrees = d;
+		minutes = m;
+		seconds = s;
+	}
+	
 	/**
 	 * Returns the text of the coodinates in form DDD:MM:SS.S
 	 * @return		The coordinates of the current location object

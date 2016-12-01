@@ -3,6 +3,8 @@ package GUIPackage;
 import Backend.*;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
@@ -60,6 +62,15 @@ public class ReqListModel<T> extends DefaultListModel<T>
 	@Override
 	public T getElementAt(int arg0) {
 		return (T) reqs.get(arg0);
+	}
+	
+	public Request getRequestByConvoID(UUID convoID) {
+		for (Request r : reqs) {
+			if (r.getConvoID() == convoID) {
+				return r;
+			} 
+		}
+		return null;
 	}
 
 	/**

@@ -31,27 +31,6 @@ public class ReqJList<T> extends JList<T> implements ListSelectionListener {
         this.setVisibleRowCount(-1);
         
 	}
-	
-//	public void addData(Request r) {
-//		ReqListModel.getModel().addElement(r);
-//    	
-//    	
-//    	listScroller = new JScrollPane(new ReqJList());
-//    	listScroller.setPreferredSize(new Dimension(500, 200));
-//        
-//        this.revalidate();
-//        this.repaint();
-//    }
-//    
-//    public void deleteData(int index) {
-//    	ReqListModel.getModel().remove(index);
-//    	
-//    	listScroller = new JScrollPane(new ReqJList());
-//    	listScroller.setPreferredSize(new Dimension(500, 200));
-//        
-//        this.revalidate();
-//        this.repaint();
-//    }
     
     public void refresh(){
     	

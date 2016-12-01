@@ -7,11 +7,7 @@ package GUIPackage;
 
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -25,8 +21,6 @@ public class ReqListFrame extends JFrame
                           implements ListSelectionListener {
     
     private ReqJList<Request> list;
-    private ReqListModel listModel;
-    private JScrollPane listScroller;
     private LowerButtonPanel lowerButtonPanel;
     
     /**
@@ -57,8 +51,8 @@ public class ReqListFrame extends JFrame
         
         //listScroller = new JScrollPane(list);
         
-        list.setPreferredSize(new Dimension(700, 800));
-        lowerButtonPanel.setPreferredSize(new Dimension(700, 20));
+        list.setPreferredSize(new Dimension(500, 500));
+        lowerButtonPanel.setPreferredSize(new Dimension(500, 20));
         
 	    	//set new grid bag constraints
 	        gbc = new GridBagConstraints();
@@ -69,7 +63,7 @@ public class ReqListFrame extends JFrame
 	        gbc.gridy = 0;
 	        //gbc.ipadx = 5;
 	        //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
-	        gbc.anchor = gbc.PAGE_START; 
+	        gbc.anchor = GridBagConstraints.PAGE_START; 
         this.add(list, gbc);
         
 	      	//set new grid bag constraints
@@ -81,7 +75,7 @@ public class ReqListFrame extends JFrame
 	        gbc.gridy = 2;
 	        //gbc.ipadx = 5;
 	        //gbc.insets = new Insets(0,0,10,0); //top, left, bottom, right
-	        //gbc.anchor = gbc.PAGE_END; 
+	        //gbc.anchor = GridBagConstraints.PAGE_END; 
         this.add(lowerButtonPanel, gbc);
         
         lowerButtonPanel.initMe();

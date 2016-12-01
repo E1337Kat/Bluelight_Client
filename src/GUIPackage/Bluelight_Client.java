@@ -16,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -115,7 +114,7 @@ public class Bluelight_Client {
         aboutItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null,
-                        "This dialog box is run from the About menu item");
+                        "Bluelight stays running in the background until selecting exit from the system tray icon.");
             }
         });
         

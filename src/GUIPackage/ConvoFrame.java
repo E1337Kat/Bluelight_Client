@@ -8,16 +8,11 @@ package GUIPackage;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 import Backend.Request;
 
@@ -57,8 +52,8 @@ public class ConvoFrame extends JFrame implements ActionListener {
         
         
         
-        convoList.setPreferredSize(new Dimension(700, 800));
-        lowerButtonPanel.setPreferredSize(new Dimension(700, 20));
+        convoList.setPreferredSize(new Dimension(500, 500));
+        lowerButtonPanel.setPreferredSize(new Dimension(500, 100));
         
 	    	//set new grid bag constraints
 	        gbc = new GridBagConstraints();
@@ -98,7 +93,7 @@ public class ConvoFrame extends JFrame implements ActionListener {
     	return req;
     }
     
-    public long getConvoID() {
+    public UUID getConvoID() {
     	return req.getConvoID();
     }
     

@@ -1,12 +1,13 @@
 package Backend;
 
+import java.util.UUID;
 
 import GUIPackage.*;
 
 public class Request {
 
 	private ConvoListModel<String> list;
-	private long convoID;
+	private UUID convoID;
 	private String stuID;
 	private Location loc;
 	
@@ -21,11 +22,11 @@ public class Request {
 		return list;
 	}
 	
-	private long createConvoID() {
-		return 0;
+	private UUID createConvoID() {
+		return UUID.randomUUID();
 	}
 	
-	public long getConvoID(){
+	public UUID getConvoID(){
 		return convoID;
 	}
 	
