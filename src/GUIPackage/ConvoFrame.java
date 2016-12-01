@@ -57,8 +57,8 @@ public class ConvoFrame extends JFrame implements ActionListener {
         
         
         
-        convoList.refresh();
-        lowerButtonPanel.setPreferredSize(new Dimension(500, 20));
+        convoList.setPreferredSize(new Dimension(700, 800));
+        lowerButtonPanel.setPreferredSize(new Dimension(700, 20));
         
 	    	//set new grid bag constraints
 	        gbc = new GridBagConstraints();

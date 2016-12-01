@@ -57,8 +57,8 @@ public class ReqListFrame extends JFrame
         
         //listScroller = new JScrollPane(list);
         
-        list.setPreferredSize(new Dimension(500, 200));
-        lowerButtonPanel.setPreferredSize(new Dimension(500, 20));
+        list.setPreferredSize(new Dimension(700, 800));
+        lowerButtonPanel.setPreferredSize(new Dimension(700, 20));
         
 	    	//set new grid bag constraints
 	        gbc = new GridBagConstraints();

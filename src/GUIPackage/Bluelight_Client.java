@@ -42,7 +42,7 @@ public class Bluelight_Client {
         ReqListModel.getModel().addElement(new Request("pre234", new Conversation<String>(m), new Location() ));
         ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
         ArrayList<Request> a = ReqListModel.getModel().getRequestList();
-        for (Iterator<Request> i = a.iterator(); i.hasNext(); i.next() ) {
+        for (Request i  : a ) {
         	System.out.println(i.toString());
         }
         /* Set Look and Feel of program to system look and feel if possible*/
@@ -56,7 +56,7 @@ public class Bluelight_Client {
                 //ReqListFrame.setIconImage(img.getImage());
                 reqListFrame.setTitle(UNI_NAME);
                 
-                reqListFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                reqListFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 reqListFrame.pack();
                 
                 reqListFrame.setVisible(true);
