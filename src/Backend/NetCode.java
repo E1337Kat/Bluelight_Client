@@ -18,7 +18,7 @@ public class NetCode {
 	 * Private NetCode constructor for lazy singleton invocation
 	 */
 	private NetCode () throws IOException {
-		String serverAddress = "";
+		String serverAddress = "localHost";
 		Socket s = new Socket(serverAddress, 9090);
 		BufferedReader input =
 			new BufferedReader(new InputStreamReader(s.getInputStream()));

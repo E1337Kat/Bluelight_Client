@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
-public class ReqListModel extends DefaultListModel 
-							implements ListModel {
+public class ReqListModel<T> extends DefaultListModel<T> 
+							implements ListModel<T> {
 
-	private static ReqListModel reqModel;
-	private static ArrayList<Object> reqs;
+	private static ReqListModel<Request> reqModel;
+	private static ArrayList<Request> reqs;
 
 	/**
 	 * Private constructor for lazy singleton
@@ -19,42 +19,71 @@ public class ReqListModel extends DefaultListModel
     	super();
     }
 	
-    public static ReqListModel getModel() {
+    /**
+     * Lazy Singleton instantiation of ReqListModel
+     * @return a single ReqListModel
+     */
+    public static <T> ReqListModel<Request> getModel() {
+    	
     	if (reqModel == null){
-    		reqs = new ArrayList<Object>();
-    		reqModel = new ReqListModel();
+    		reqs = new ArrayList<Request>();
+    		reqModel = new ReqListModel<Request>();
     	}
+	
     	return reqModel;
     }
     
-    public void addElement(Object o) {
-    	reqs.add(o);
-    	super.addElement(o);
+    /**
+     * Adds an Element to end of list
+     * @param t		element to add
+     */
+    @Override
+    public void addElement(T t) {
+    	reqs.add((Request)t);
+    	super.addElement(t);
     	System.out.println("added obj");
     }
     
-    public Object remove(int i){
+    /**
+     * removes the element at the specified location
+     * @param i	The index of the element to be removed
+     * @return returns the element that was removed
+     */
+    @Override
+    public T remove(int i){
     	return super.remove(i);
     }
     	
+    /**
+     * 
+     */
 	@Override
-	public Object getElementAt(int arg0) {
-		// TODO Auto-generated method stub
-		return reqs.get(arg0);
+	public T getElementAt(int arg0) {
+		return (T) reqs.get(arg0);
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
 		return reqs.size();
 	}
 	
-	public ArrayList<Object> getRequestList(){
+	/**
+	 * 
+	 * @return
+	 */
+	public ArrayList<Request> getRequestList(){
         return reqs;
     }
 
-    public void setList(ArrayList<Object> array){
-        this.reqs = array;
+	/**
+	 * 
+	 * @param array
+	 */
+    public static void setList(ArrayList<Request> array){
+        reqs = array;
     }
 
 }

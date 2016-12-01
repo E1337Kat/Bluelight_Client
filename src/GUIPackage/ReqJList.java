@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import Backend.Request;
 
 public class ReqJList<T> extends JList<T> implements ListSelectionListener {
 	
@@ -19,36 +22,36 @@ public class ReqJList<T> extends JList<T> implements ListSelectionListener {
 			"Request for Safe Ride at Library - UTCID=pra457 - NAME=Kel Kyl"};
 	
 	public ReqJList () {
-		//setListData((T[]) fakeData);
 		
         super();
-        this.setModel(ReqListModel.getModel());
+        setCellRenderer(new ReqCellRenderer());
+        this.setModel((ListModel<T>)ReqListModel.getModel());
         this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.setLayoutOrientation(JList.VERTICAL);
         this.setVisibleRowCount(-1);
         
 	}
 	
-	public void addData(Object o) {
-		ReqListModel.getModel().addElement(o);
-    	
-    	
-    	listScroller = new JScrollPane(new ReqJList());
-    	listScroller.setPreferredSize(new Dimension(500, 200));
-        
-        this.revalidate();
-        this.repaint();
-    }
-    
-    public void deleteData(int index) {
-    	ReqListModel.getModel().remove(index);
-    	
-    	listScroller = new JScrollPane(new ReqJList());
-    	listScroller.setPreferredSize(new Dimension(500, 200));
-        
-        this.revalidate();
-        this.repaint();
-    }
+//	public void addData(Request r) {
+//		ReqListModel.getModel().addElement(r);
+//    	
+//    	
+//    	listScroller = new JScrollPane(new ReqJList());
+//    	listScroller.setPreferredSize(new Dimension(500, 200));
+//        
+//        this.revalidate();
+//        this.repaint();
+//    }
+//    
+//    public void deleteData(int index) {
+//    	ReqListModel.getModel().remove(index);
+//    	
+//    	listScroller = new JScrollPane(new ReqJList());
+//    	listScroller.setPreferredSize(new Dimension(500, 200));
+//        
+//        this.revalidate();
+//        this.repaint();
+//    }
     
     public void refresh(){
     	
@@ -66,6 +69,7 @@ public class ReqJList<T> extends JList<T> implements ListSelectionListener {
     public int getSelection() {
     	return JListSelection;
     }
+    
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {

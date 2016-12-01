@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class LowerButtonPanel extends JPanel {
@@ -14,6 +15,7 @@ public class LowerButtonPanel extends JPanel {
     private JButton otherButton;
     private JButton selectConvoButton;
     private int jListSelection;
+    private long convoID;
     // End of variables declaration
     
     /**
@@ -59,8 +61,8 @@ public class LowerButtonPanel extends JPanel {
             gbc.gridwidth = 2;
             gbc.gridx = 0;
             //gbc.gridy = 0;
-            //gbc.ipadx = 5;
-            gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
+            //gbc.ipady = 10;
+            //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
             gbc.anchor = gbc.LINE_START; 
         this.add(selectConvoButton, gbc);
         
@@ -68,7 +70,7 @@ public class LowerButtonPanel extends JPanel {
         otherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                otherButtonActionPerformed(evt);
+                exitButtonActionPerformed(evt);
             }
         });
         	//set new grid bag constraints
@@ -77,14 +79,18 @@ public class LowerButtonPanel extends JPanel {
             gbc.gridwidth = 2;
             gbc.gridx = 2;
             //gbc.gridy = 0;
-            //gbc.ipadx = 5;
-            gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
+            //gbc.ipady = 10;
+            //gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
             gbc.anchor = gbc.LINE_END; 
         this.add(otherButton, gbc);
         
         
         //setOpaque(false);
     }    
+    
+    public JButton getSelectButton() {
+    	return selectConvoButton;
+    }
     
     /***ACTION LISTENERS***/
     
@@ -97,14 +103,14 @@ public class LowerButtonPanel extends JPanel {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ConvoFrame reqConvoFrame = new ConvoFrame();
+                ConvoFrame convoFrame = new ConvoFrame(ReqListModel.getModel().getRequestList().get((int) getSelection()), getSelection());
                 //ReqListFrame.setIconImage(img.getImage());
-                reqConvoFrame.setTitle("Request #" + getSelection());
+                convoFrame.setTitle("Request #" + getSelection());
                 
-                reqConvoFrame.setDefaultCloseOperation(reqConvoFrame.DISPOSE_ON_CLOSE);
-                reqConvoFrame.pack();
+                convoFrame.setDefaultCloseOperation(convoFrame.DISPOSE_ON_CLOSE);
+                convoFrame.pack();
                 
-                reqConvoFrame.setVisible(true);
+                convoFrame.setVisible(true);
             }
         });
     }
@@ -113,12 +119,13 @@ public class LowerButtonPanel extends JPanel {
      * Action event for button press
      * @param evt idk lol
      */
-    private void otherButtonActionPerformed(ActionEvent evt) {
-        //TODO: confirmation dialog, if yes, delete, else do nothing
+    private void exitButtonActionPerformed(ActionEvent evt) {
+        JFrame parent = (JFrame) this.getTopLevelAncestor();
+        parent.setVisible(false);
     }
 
 	public void setSelection(int selectedIndex) {
-		jListSelection = selectedIndex;		
+		jListSelection = selectedIndex;	
 		System.out.println(selectedIndex);
 	}
 	

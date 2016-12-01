@@ -7,14 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import Backend.Request;
 
 public class ConvoLowerButtonPanel extends JPanel {
 	
 	 // Variables declaration 
     private JComboBox comboSelection;
-    private JButton otherButton;
-    private JButton selectConvoButton;
+    private JButton sendMsgButton;
     
     private String[] testResponses = {"Hello", "Officer on way", 
         "All units busy, plese hold"};
@@ -41,8 +43,7 @@ public class ConvoLowerButtonPanel extends JPanel {
     	System.out.println("init JPanel");
     	//Initialize Buttons
         comboSelection = new JComboBox(testResponses);
-    	otherButton = new JButton();
-    	selectConvoButton = new JButton();
+    	sendMsgButton = new JButton();
     	
         GridBagLayout gridBag = new GridBagLayout();
         GridBagConstraints gbc;
@@ -52,20 +53,27 @@ public class ConvoLowerButtonPanel extends JPanel {
         
         //Row One
         //comboBox stuff
+        comboSelection.setSelectedIndex(-1);
+        comboSelection.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent evt) {
+        		comboSelectionActionPerformed(evt);
+        	}
+        });
         gbc = new GridBagConstraints();
             gbc.gridheight = 1;
             gbc.gridwidth = 2;
             gbc.gridx = 0;
-            gbc.insets = new Insets(10,10,5,5);
+            //gbc.insets = new Insets(10,10,5,5);
             gbc.anchor = gbc.LINE_START;
         this.add(comboSelection, gbc);
         
         
-        selectConvoButton.setText("Send Message");
-        selectConvoButton.addActionListener(new ActionListener() {
+        sendMsgButton.setText("Send Message");
+        sendMsgButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                selectConvoButtonActionPerformed(evt);
+                sendMsgButtonActionPerformed(evt);
             }
         });
         	//set new grid bag constraints
@@ -75,17 +83,12 @@ public class ConvoLowerButtonPanel extends JPanel {
             gbc.gridx = 2;
             //gbc.gridy = 0;
             //gbc.ipadx = 5;
-            gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
+            //gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
             gbc.anchor = gbc.LINE_END; 
-        this.add(selectConvoButton, gbc);
+        this.add(sendMsgButton, gbc);
         
-        otherButton.setText("other?");
-        otherButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                otherButtonActionPerformed(evt);
-            }
-        });
+        
+       
         	
         
         
@@ -94,19 +97,26 @@ public class ConvoLowerButtonPanel extends JPanel {
     
     /***ACTION LISTENERS***/
     
-    /**
+    protected void comboSelectionActionPerformed(ActionEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
      * Action event for button press
      * @param evt idk lol
      */
-    private void selectConvoButtonActionPerformed(ActionEvent evt) {
-    	//TODO: select Conversation
+    private void sendMsgButtonActionPerformed(ActionEvent evt) {
+    	if (comboSelection.getSelectedIndex() == -1) {
+    		JOptionPane.showMessageDialog(null,
+                    "Please choose a response from the left!");
+    	} else {
+    		ConvoFrame parent = (ConvoFrame) this.getTopLevelAncestor();
+    		( (Request) ReqListModel.getModel().getRequestList().get(parent.getSelection())).getConvoListModel().addElement(comboSelection.getSelectedItem().toString());
+    		parent.revalidate();
+    		parent.repaint();
+    	}
     }
 
-    /**
-     * Action event for button press
-     * @param evt idk lol
-     */
-    private void otherButtonActionPerformed(ActionEvent evt) {
-        //TODO: confirmation dialog, if yes, delete, else do nothing
-    }
+    
 }

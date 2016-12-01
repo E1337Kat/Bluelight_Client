@@ -5,10 +5,22 @@
  */
 package GUIPackage;
 
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.*;
+
+import Backend.*;
 
 /**
  *
@@ -23,13 +35,14 @@ public class Bluelight_Client {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        
-    	ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre345 - NAME=Kellie Peace");
-        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre234 - NAME=Ellie Prean");
-        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pra457 - NAME=Kel Kyl");
-        ArrayList a = ReqListModel.getModel().getRequestList();
-        for (Iterator<ArrayList> i = a.iterator(); i.hasNext(); i.next() ) {
+	public static void main(String[] args) {
+        String[] k = {"Request for Safe Ride"};
+        String[] m = {"Need ride plz??!?"};
+    	ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
+        ReqListModel.getModel().addElement(new Request("pre234", new Conversation<String>(m), new Location() ));
+        ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
+        ArrayList<Request> a = ReqListModel.getModel().getRequestList();
+        for (Iterator<Request> i = a.iterator(); i.hasNext(); i.next() ) {
         	System.out.println(i.toString());
         }
         /* Set Look and Feel of program to system look and feel if possible*/
@@ -43,18 +56,108 @@ public class Bluelight_Client {
                 //ReqListFrame.setIconImage(img.getImage());
                 reqListFrame.setTitle(UNI_NAME);
                 
-                reqListFrame.setDefaultCloseOperation(reqListFrame.EXIT_ON_CLOSE);
+                reqListFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 reqListFrame.pack();
                 
                 reqListFrame.setVisible(true);
                 
             }
         });
-        // TODO code application logic here
-        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre345 - NAME=Kellie Peace");
-        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pre234 - NAME=Ellie Prean");
-        ReqListModel.getModel().addElement("Request for Safe Ride at Library - UTCID=pra457 - NAME=Kel Kyl");
+        
+        initSystemTray();
+        
+    }
+    
+    /**
+     * Create an icon for the system tray to allow users to reopen window 
+     */
+    private static void initSystemTray() {
+    	//Check the SystemTray is supported
+        if (!SystemTray.isSupported()) {
+            System.out.println("SystemTray is not supported");
+            return;
+        }
+        final PopupMenu popup = new PopupMenu();
+        final TrayIcon trayIcon =
+                new TrayIcon(createImage("../Resources/bulb.gif", "tray icon"));
+        final SystemTray tray = SystemTray.getSystemTray();
        
+        // Create a pop-up menu components
+        MenuItem aboutItem = new MenuItem("About");
+        Menu displayMenu = new Menu("Display");
+        MenuItem maximizeItem = new MenuItem("Maximize");
+        MenuItem minimizeItem = new MenuItem("Minimize");
+        MenuItem exitItem = new MenuItem("Exit");
+       
+        //Add components to pop-up menu
+        popup.add(aboutItem);
+        popup.addSeparator();
+        popup.add(displayMenu);
+        displayMenu.add(maximizeItem);
+        displayMenu.add(minimizeItem);
+        popup.add(exitItem);
+       
+        trayIcon.setPopupMenu(popup);
+       
+        try {
+            tray.add(trayIcon);
+        } catch (AWTException e) {
+            System.out.println("TrayIcon could not be added.");
+        }
+        
+        trayIcon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,
+                        "This dialog box is run from System Tray");
+            }
+        });
+         
+        aboutItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,
+                        "This dialog box is run from the About menu item");
+            }
+        });
+        
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                MenuItem item = (MenuItem)e.getSource();
+                //TrayIcon.MessageType type = null;
+                System.out.println(item.getLabel());
+                if ("Maximize".equals(item.getLabel())) {
+                    //type = TrayIcon.MessageType.ERROR;
+                	reqListFrame.setVisible(true);
+                     
+                } else if ("Minimize".equals(item.getLabel())) {
+                    //type = TrayIcon.MessageType.WARNING;
+                	reqListFrame.setVisible(false);
+                     
+                } 
+            }
+        };
+        
+        maximizeItem.addActionListener(listener);
+        minimizeItem.addActionListener(listener);
+        
+        exitItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tray.remove(trayIcon);
+                System.exit(0);
+            }
+        });
+		
+	}
+
+	//Obtain the image URL
+    protected static Image createImage(String path, String description) {
+        URL imageURL = Bluelight_Client.class.getResource(path);
+         
+        if (imageURL == null) {
+            System.err.println("Resource not found: " + path);
+            return null;
+        } else {
+            return (new ImageIcon(imageURL, description)).getImage();
+        }
     }
     
     /*

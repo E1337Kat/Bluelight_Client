@@ -9,12 +9,13 @@ package GUIPackage;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import Backend.Request;
 
 /**
  *
@@ -23,7 +24,7 @@ import javax.swing.event.ListSelectionListener;
 public class ReqListFrame extends JFrame 
                           implements ListSelectionListener {
     
-    private ReqJList<ArrayList<String>> list;
+    private ReqJList<Request> list;
     private ReqListModel listModel;
     private JScrollPane listScroller;
     private LowerButtonPanel lowerButtonPanel;
@@ -46,7 +47,7 @@ public class ReqListFrame extends JFrame
         
         GridBagConstraints gbc;
         
-        list = new ReqJList<ArrayList<String>>();
+        list = new ReqJList<Request>();
         //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //list.setLayoutOrientation(JList.VERTICAL);
         //list.setVisibleRowCount(-1);
@@ -79,8 +80,8 @@ public class ReqListFrame extends JFrame
 	        gbc.gridx = 0;
 	        gbc.gridy = 2;
 	        //gbc.ipadx = 5;
-	        gbc.insets = new Insets(10,10,20,10); //top, left, bottom, right
-	        gbc.anchor = gbc.PAGE_END; 
+	        //gbc.insets = new Insets(0,0,10,0); //top, left, bottom, right
+	        //gbc.anchor = gbc.PAGE_END; 
         this.add(lowerButtonPanel, gbc);
         
         lowerButtonPanel.initMe();
@@ -97,8 +98,12 @@ public class ReqListFrame extends JFrame
         if (e.getValueIsAdjusting() == false) {
  
             if (list.getSelectedIndex() == -1) {
+            	lowerButtonPanel.getSelectButton().setEnabled(false);
+            	this.revalidate();
+            	this.repaint();
             } else {
             	lowerButtonPanel.setSelection(list.getSelectedIndex());
+            	
             }
         }
     }
