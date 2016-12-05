@@ -8,10 +8,10 @@ import java.util.UUID;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
-public class ReqListModel<T> extends DefaultListModel<T> 
-							implements ListModel<T> {
+public class ReqListModel extends DefaultListModel 
+							implements ListModel {
 
-	private static ReqListModel<Request> reqModel;
+	private static ReqListModel reqModel;
 	private static ArrayList<Request> reqs;
 
 	/**
@@ -25,11 +25,11 @@ public class ReqListModel<T> extends DefaultListModel<T>
      * Lazy Singleton instantiation of ReqListModel
      * @return a single ReqListModel
      */
-    public static <T> ReqListModel<Request> getModel() {
+    public static <T> ReqListModel getModel() {
     	
     	if (reqModel == null){
     		reqs = new ArrayList<Request>();
-    		reqModel = new ReqListModel<Request>();
+    		reqModel = new ReqListModel();
     	}
 	
     	return reqModel;
@@ -39,8 +39,7 @@ public class ReqListModel<T> extends DefaultListModel<T>
      * Adds an Element to end of list
      * @param t		element to add
      */
-    @Override
-    public void addElement(T t) {
+    public void addElement(Request t) {
     	reqs.add((Request)t);
     	super.addElement(t);
     	System.out.println("added obj");
@@ -52,21 +51,26 @@ public class ReqListModel<T> extends DefaultListModel<T>
      * @return returns the element that was removed
      */
     @Override
-    public T remove(int i){
-    	return super.remove(i);
+    public Request remove(int i){
+    	return (Request) super.remove(i);
     }
     	
     /**
      * 
      */
 	@Override
-	public T getElementAt(int arg0) {
-		return (T) reqs.get(arg0);
+	public Request getElementAt(int arg0) {
+		return (Request) reqs.get(arg0);
 	}
 	
+	/**
+	 * 
+	 * @param convoID
+	 * @return
+	 */
 	public Request getRequestByConvoID(UUID convoID) {
 		for (Request r : reqs) {
-			if (r.getConvoID() == convoID) {
+			if (r.getConvoID().equals(convoID)) {
 				return r;
 			} 
 		}

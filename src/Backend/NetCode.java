@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 import java.util.Scanner;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import GUIPackage.*;
 
@@ -14,8 +15,8 @@ public class NetCode extends Socket {
 	public static final String CLOSED_CONNECTION = "THE CONNECTION TO THE SERVER HAS CLOSED";
 	public static final String serverAddress = "localhost";
 	
-	private static final String reqRegex = "";
-	private static final String msgRegex = "";
+	private static final String reqRegex = "^%[a-z][a-z][a-z][0-9][0-9][0-9]%[ a-zA-Z0-9]++%[1-3]?[0-9][0-9]:[1-6]?[0-9]:[1-6]?[0-9]\\.[0-9]++%[1-3]?[0-9][0-9]:[1-6]?[0-9]:[1-6]?[0-9]\\.[0-9]++%$";
+	private static final String msgRegex = "^%[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}%[ a-zA-Z0-9]++%$";
 	
 	private boolean openSocket;
 	private boolean readyToReceive;
@@ -32,6 +33,7 @@ public class NetCode extends Socket {
 	 */
 	private NetCode () throws IOException {
 		super(serverAddress, 9090);
+		
 		if (netcode.isConnected()) {
 			this.openSocket = true;
 			this.readyToReceive = true;
@@ -58,7 +60,7 @@ public class NetCode extends Socket {
 				this.netcode = new NetCode();
 			}
 			catch (IOException e){
-				System.out.println("IO Error:" + e + " at " + NetCode.class.toGenericString() + ": line 54");
+				System.out.println("IO Error:" + e + " at " + NetCode.class.toGenericString() + ": line 60");
 			}
 			return this.netcode;
 		}
@@ -70,7 +72,7 @@ public class NetCode extends Socket {
 				this.answer = input.readLine();
 				readyToReceive = false;
 			} catch (IOException e) {
-				System.err.println("Error: " + e + " at line 65 in " + this.getClass());
+				System.err.println("Error: " + e + " at line 72 in " + this.getClass());
 			}
 		} else {
 			getNetCodeInstance();
@@ -78,7 +80,7 @@ public class NetCode extends Socket {
 				this.answer = input.readLine();
 				readyToReceive = false;
 			} catch (IOException e) {
-				System.err.println("Error: " + e + " at line 72 in " + this.getClass());
+				System.err.println("Error: " + e + " at line 80 in " + this.getClass());
 			}
 		}
 		if (this.answer != null) {
@@ -101,28 +103,39 @@ public class NetCode extends Socket {
 			if (answer != null && isRequest()) {
 				temp = answer;
 				readyToReceive = true;
+				System.out.println("New req: " + answer);
+				
 				Scanner parts = new Scanner(temp);
 				parts.useDelimiter("%");
+				
 				stuID = parts.next();
 				
 				convo.add(parts.next());
 				
 				parts.useDelimiter(":");
+				parts.skip("%");
+				
 				int d = parts.nextInt();
 				int m = parts.nextInt();
+				
+				parts.useDelimiter("%");
+				parts.skip(":");
+				
 				double s = parts.nextDouble();
 				x.setCoordinates(d, m, s);
 				
-				parts.useDelimiter("%");
-				parts.next();
-				
 				parts.useDelimiter(":");
+				parts.skip("%");
+				
 				d = parts.nextInt();
 				m = parts.nextInt();
+				
+				parts.useDelimiter("%");
+				parts.skip(":");
+				
 				s = parts.nextDouble();
 				y.setCoordinates(d, m, s);
 				
-				parts.useDelimiter("%");
 				loc.setCoordinates(x, y);
 				
 				parts.close();
@@ -146,9 +159,13 @@ public class NetCode extends Socket {
 				Scanner parts = new Scanner(temp);
 				parts.useDelimiter("%");
 				
-				convo = new UUID(parts.nextLong(), parts.nextLong());
+				convo = UUID.fromString(parts.next());
+				System.out.println("convoID: " + convo.toString());
 				msg = parts.next();
-				(ReqListModel.getModel().getRequestByConvoID(convo)).addMessage(msg);;
+				System.out.println("Message to add: " + msg);
+				System.out.println("Request to add msg to: " + ReqListModel.getModel().getRequestByConvoID(convo));
+				
+				(ReqListModel.getModel().getRequestByConvoID(convo)).addMessage(msg);
 				
 				parts.close();
 				return msg;

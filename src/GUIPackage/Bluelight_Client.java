@@ -28,6 +28,7 @@ import Backend.*;
 public class Bluelight_Client {
     
 	private static ReqListFrame reqListFrame;
+	private static TestFrame testFrame;
     public static final String LOOKANDFEEL = "System";
     protected static final String UNI_NAME = "University of Tennessee at Chattanooga";
 
@@ -35,15 +36,16 @@ public class Bluelight_Client {
      * @param args the command line arguments
      */
 	public static void main(String[] args) {
-        String[] k = {"Request for Safe Ride"};
-        String[] m = {"Need ride plz??!?"};
-    	ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
-        ReqListModel.getModel().addElement(new Request("pre234", new Conversation<String>(m), new Location() ));
-        ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
-        ArrayList<Request> a = ReqListModel.getModel().getRequestList();
-        for (Request i  : a ) {
-        	System.out.println(i.toString());
-        }
+//        String[] k = {"Request for Safe Ride"};
+//        String[] m = {"Need ride plz??!?"};
+//    	ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
+//        ReqListModel.getModel().addElement(new Request("pre234", new Conversation<String>(m), new Location() ));
+//        ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
+//        ArrayList<Request> a = ReqListModel.getModel().getRequestList();
+//        for (Request i  : a ) {
+//        	System.out.println(i.toString());
+//        	System.out.println(i.getConvoID());
+//        }
         /* Set Look and Feel of program to system look and feel if possible*/
         initLookAndFeel();
         
@@ -52,13 +54,20 @@ public class Bluelight_Client {
             @Override
             public void run() {
                 reqListFrame = new ReqListFrame();
+                testFrame = new TestFrame();
                 //ReqListFrame.setIconImage(img.getImage());
                 reqListFrame.setTitle(UNI_NAME);
+                testFrame.setTitle("For Testing input");
                 
                 reqListFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                
                 reqListFrame.pack();
+                testFrame.pack();
                 
                 reqListFrame.setVisible(true);
+                testFrame.setVisible(true);
+                
                 
             }
         });

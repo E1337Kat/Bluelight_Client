@@ -23,7 +23,9 @@ public class Request {
 	}
 	
 	private UUID createConvoID() {
-		return UUID.randomUUID();
+		UUID u = UUID.randomUUID();
+		System.out.println("UUID for " + stuID + " is " + u.toString());
+		return u;
 	}
 	
 	public UUID getConvoID(){
