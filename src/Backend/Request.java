@@ -1,5 +1,6 @@
 package Backend;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import GUIPackage.*;
@@ -30,6 +31,18 @@ public class Request {
 	
 	public UUID getConvoID(){
 		return convoID;
+	}
+	
+	public String getStudentID() {
+		return stuID;
+	}
+	
+	public ArrayList<String> getConversation() {
+		return list.getConvoList();
+	}
+	
+	public Location getLocation() {
+		return loc;
 	}
 	
 	public void addMessage(String s) {

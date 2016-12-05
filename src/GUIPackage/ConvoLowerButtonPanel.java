@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import Backend.NetCode;
 import Backend.Request;
 
 public class ConvoLowerButtonPanel extends JPanel {
@@ -178,7 +181,17 @@ public class ConvoLowerButtonPanel extends JPanel {
     }
 
     private void purgeButtonActionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
+		ConvoFrame parent = (ConvoFrame) this.getTopLevelAncestor();
+		parent.setVisible(false);
+		Request temp = ( (Request) ReqListModel.getModel().getRequestList().get(parent.getSelection()));
 		
+		//if not testing, send through netcode
+		if ( ( (Bluelight_Client.getArgs().length >= 1 && Bluelight_Client.getArgs()[0] == "-t") || 
+				(Bluelight_Client.getArgs().length >= 2 && Bluelight_Client.getArgs()[1] == "-t") ) ) {
+			NetCode.getNetCodeInstance().sendTelemetry(new Date().getTime(), temp.getLocation());
+		} 
+		( (Request) ReqListModel.getModel().getRequestList().get(parent.getSelection())).getConvoListModel().removeAllElements();
+		ReqListModel.getModel().remove(parent.getSelection());
+		parent.dispose();
 	}
 }

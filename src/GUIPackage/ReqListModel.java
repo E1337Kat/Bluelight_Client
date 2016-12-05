@@ -52,6 +52,7 @@ public class ReqListModel extends DefaultListModel
      */
     @Override
     public Request remove(int i){
+    	System.out.println("removed element." );
     	return (Request) super.remove(i);
     }
     	

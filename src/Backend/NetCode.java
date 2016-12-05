@@ -1,9 +1,12 @@
 package Backend;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.*;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -20,13 +23,16 @@ public class NetCode extends Socket {
 	
 	private boolean openSocket;
 	private boolean readyToReceive;
+	private boolean readyToWrite;
+	private String returnAnswer;
 	private String answer;
 	private static BufferedReader input;
+	private static BufferedWriter output;
 	
 	/**
 	 * single netcode instance
 	 */
-	private NetCode netcode;
+	private static NetCode netcode;
 	
 	/**
 	 * Private NetCode constructor for lazy singleton invocation
@@ -36,12 +42,16 @@ public class NetCode extends Socket {
 		
 		if (netcode.isConnected()) {
 			this.openSocket = true;
-			this.readyToReceive = true;
+			readyToReceive = true;
+			readyToWrite = true;
 			input =
 					new BufferedReader(new InputStreamReader(this.getInputStream()));
+			output = 
+					new BufferedWriter(new OutputStreamWriter(this.getOutputStream()));
 		} else {
 			this.openSocket = false;
-			this.readyToReceive = false;
+			readyToReceive = false;
+			readyToWrite = true;
 			System.err.println("Error connecting to socket at address: " + 
 								serverAddress + 
 								"; pease check server Address");
@@ -52,31 +62,33 @@ public class NetCode extends Socket {
 	 * Lazy singleton invocation of NetCode
 	 * @return a single NetCode object
 	 */
-	public NetCode getNetCodeInstance() {
-		if (this.netcode != null)
-			return this.netcode;
+	public static NetCode getNetCodeInstance() {
+		if (netcode != null)
+			return netcode;
 		else {
 			try {
-				this.netcode = new NetCode();
+				netcode = new NetCode();
 			}
 			catch (IOException e){
 				System.out.println("IO Error:" + e + " at " + NetCode.class.toGenericString() + ": line 60");
 			}
-			return this.netcode;
+			return netcode;
 		}
 	}
 	
 	private String queryServer() {
-		if (netcode != null && readyToReceive) {
+		if (!netcode.equals(null) && readyToReceive) {
 			try{
+				readyToWrite = true;
 				this.answer = input.readLine();
 				readyToReceive = false;
 			} catch (IOException e) {
 				System.err.println("Error: " + e + " at line 72 in " + this.getClass());
 			}
-		} else {
+		} else if (netcode.equals(null) && readyToReceive){
 			getNetCodeInstance();
 			try{
+				readyToWrite = true;
 				this.answer = input.readLine();
 				readyToReceive = false;
 			} catch (IOException e) {
@@ -88,6 +100,41 @@ public class NetCode extends Socket {
 		} else {
 			return null;
 		}
+	}
+	
+	private void writeToServer() {
+		if (!netcode.equals(null) && readyToWrite) {
+			try{
+				readyToWrite = false;
+				output.write(returnAnswer);
+				readyToReceive = true;
+				readyToWrite = true;
+			} catch (IOException e) {
+				System.err.println("Error: " + e + " at line 72 in " + this.getClass());
+			}
+		} else if (netcode.equals(null) && readyToReceive){
+			getNetCodeInstance();
+			try{
+				readyToWrite = false;
+				output.write(returnAnswer);
+				readyToReceive = true;
+				readyToWrite = true;
+			} catch (IOException e) {
+				System.err.println("Error: " + e + " at line 80 in " + this.getClass());
+			}
+		}
+		
+	}
+	
+	public void sendTelemetry(long time, Location loc) {
+		
+		Date date = new Date();
+		date.setTime(time);
+		String o = date.toString().concat(" ").concat(loc.toString());
+		this.returnAnswer = o;
+		this.readyToWrite = true;
+		this.readyToReceive = false;
+		writeToServer();
 	}
 	
 	public Request getNewRequest() {
@@ -103,6 +150,7 @@ public class NetCode extends Socket {
 			if (answer != null && isRequest()) {
 				temp = answer;
 				readyToReceive = true;
+				readyToWrite = true;
 				System.out.println("New req: " + answer);
 				
 				Scanner parts = new Scanner(temp);
@@ -156,6 +204,7 @@ public class NetCode extends Socket {
 			if (answer != null && isMessage() ) {
 				temp = answer;
 				readyToReceive = true;
+				readyToWrite = true;
 				Scanner parts = new Scanner(temp);
 				parts.useDelimiter("%");
 				
@@ -171,7 +220,7 @@ public class NetCode extends Socket {
 				return msg;
 			} 
 		}
-		return null;
+		return CLOSED_CONNECTION;
 	}
 	
 	public void closeSocket(){

@@ -27,6 +27,7 @@ import Backend.*;
  */
 public class Bluelight_Client {
     
+	private static String[] arguments;
 	private static ReqListFrame reqListFrame;
 	private static TestFrame testFrame;
     public static final String LOOKANDFEEL = "System";
@@ -36,6 +37,9 @@ public class Bluelight_Client {
      * @param args the command line arguments
      */
 	public static void main(String[] args) {
+		if (args != null) {
+			arguments = args;
+		}
 //        String[] k = {"Request for Safe Ride"};
 //        String[] m = {"Need ride plz??!?"};
 //    	ReqListModel.getModel().addElement(new Request("pre345", new Conversation<String>(k), new Location() ));
@@ -53,29 +57,39 @@ public class Bluelight_Client {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
+            	//-t testing mode, when enabled, executes testing frame to test inputs
+            	if ( ( args.length >= 1 && args[0].equals("-t") ) || 
+            			( args.length >= 2 && args[1].equals("-t") ) ) { 
+            		testFrame = new TestFrame();
+            		testFrame.setTitle("For Testing input");
+            		testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            		testFrame.pack();
+            		testFrame.setVisible(true);
+        		}
+            	
                 reqListFrame = new ReqListFrame();
-                testFrame = new TestFrame();
-                //ReqListFrame.setIconImage(img.getImage());
                 reqListFrame.setTitle(UNI_NAME);
-                testFrame.setTitle("For Testing input");
                 
-                reqListFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                testFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //-c closable for X. if closable, close, else do not
+                if ( ( args.length >= 1 && args[0].equals("-t") ) || 
+                		( args.length >= 2 && args[1].equals("-t") ) ) { 
+                	reqListFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                } else {
+                	reqListFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                }
                 
                 reqListFrame.pack();
-                testFrame.pack();
-                
                 reqListFrame.setVisible(true);
-                testFrame.setVisible(true);
-                
-                
             }
         });
         
         initSystemTray();
         
     }
-    
+
+	public static String[] getArgs() {
+		return arguments;
+	}
     /**
      * Create an icon for the system tray to allow users to reopen window 
      */

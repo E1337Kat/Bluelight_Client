@@ -7,6 +7,9 @@ package GUIPackage;
 
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -80,7 +83,15 @@ public class ReqListFrame extends JFrame
         
         lowerButtonPanel.initMe();
         
-        
+        this.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				focusedOnFrame(arg0);
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {}
+        });
         System.out.println("added both panels");
         list.refresh();
         this.repaint();
@@ -100,5 +111,12 @@ public class ReqListFrame extends JFrame
             	
             }
         }
+    }
+    
+    public void focusedOnFrame(FocusEvent e) {
+    	System.out.println("Refreshing list");
+		list.refresh();
+		this.revalidate();
+		this.repaint();
     }
 }
