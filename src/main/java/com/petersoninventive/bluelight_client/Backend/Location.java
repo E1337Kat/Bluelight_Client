@@ -1,4 +1,4 @@
-package Backend;
+package com.petersoninventive.bluelight_client.Backend;
 
 public class Location {
 

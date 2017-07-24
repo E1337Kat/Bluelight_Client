@@ -1,4 +1,4 @@
-package GUIPackage;
+package com.petersoninventive.bluelight_client.GUIPackage;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,8 +14,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import Backend.NetCode;
-import Backend.Request;
+import com.petersoninventive.bluelight_client.Backend.NetCode;
+import com.petersoninventive.bluelight_client.Backend.Request;
 
 public class ConvoLowerButtonPanel extends JPanel {
 	

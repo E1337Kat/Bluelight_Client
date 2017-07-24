@@ -1,4 +1,4 @@
-package GUIPackage;
+package com.petersoninventive.bluelight_client.GUIPackage;
 
 import java.awt.Color;
 import java.awt.Component;

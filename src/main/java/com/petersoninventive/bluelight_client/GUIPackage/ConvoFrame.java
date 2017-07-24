@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUIPackage;
+package com.petersoninventive.bluelight_client.GUIPackage;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import javax.swing.JFrame;
 
-import Backend.Request;
+import com.petersoninventive.bluelight_client.Backend.Request;
 
 /**
  *

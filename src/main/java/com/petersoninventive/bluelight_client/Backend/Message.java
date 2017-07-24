@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Backend;
+package com.petersoninventive.bluelight_client.Backend;
 
 import java.util.Date;
 
@@ -24,6 +24,9 @@ public class Message {
         this.recieved = r;
     }
     
+    public Message() {
+        // Default Constructor
+    }
     /*****Getters*****/
     
     public String getBody() {

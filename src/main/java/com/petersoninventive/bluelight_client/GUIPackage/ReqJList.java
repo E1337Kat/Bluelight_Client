@@ -1,4 +1,4 @@
-package GUIPackage;
+package com.petersoninventive.bluelight_client.GUIPackage;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import Backend.Request;
+import com.petersoninventive.bluelight_client.Backend.Request;
 
 public class ReqJList<T> extends JList<T> implements ListSelectionListener {
 	

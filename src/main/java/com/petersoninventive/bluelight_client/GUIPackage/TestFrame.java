@@ -1,4 +1,4 @@
-package GUIPackage;
+package com.petersoninventive.bluelight_client.GUIPackage;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -16,10 +16,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import Backend.Conversation;
-import Backend.Coord;
-import Backend.Location;
-import Backend.Request;
+import com.petersoninventive.bluelight_client.Backend.Conversation;
+import com.petersoninventive.bluelight_client.Backend.Coord;
+import com.petersoninventive.bluelight_client.Backend.Location;
+import com.petersoninventive.bluelight_client.Backend.Request;
 
 public class TestFrame extends JFrame implements ActionListener{
 	
