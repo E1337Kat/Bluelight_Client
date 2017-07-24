@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.petersoninventive.bluelight_client.Backend.NetCode;
-import com.petersoninventive.bluelight_client.Backend.Request;
+import com.petersoninventive.bluelight_client.DataModels.Request;
 
 public class ConvoLowerButtonPanel extends JPanel {
 	

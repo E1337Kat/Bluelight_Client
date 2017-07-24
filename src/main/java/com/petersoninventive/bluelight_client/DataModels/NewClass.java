@@ -13,21 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.petersoninventive.bluelight_client.Backend;
+package com.petersoninventive.bluelight_client.DataModels;
 
-import java.util.ArrayList;
-
-/**/
-public class Conversation<T> extends ArrayList<T> {
-
-	public Conversation(){
-		super();
-	}
-	
-	public Conversation(T[] s) {
-		super();
-		for (T i : s) {
-			this.add(i);
-		}
-	}
+/**
+ *
+ * @author Elliekat
+ */
+public class NewClass {
+    
 }
