@@ -8,26 +8,32 @@ package GUIPackage;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
-import javax.swing.DefaultListModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.UUID;
+
 import javax.swing.JFrame;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
+
+import Backend.Request;
 
 /**
  *
  * @author ellie
  */
-public class ReqConvoFrame extends JFrame {
+public class ConvoFrame extends JFrame implements ActionListener {
     private ConvoJList convoList;
-    private DefaultListModel listModel;
-    private JScrollPane listScroller;
     private ConvoLowerButtonPanel lowerButtonPanel;
+    private Request req;
+    private int reqSelection;
     
-    public ReqConvoFrame() {
+    public ConvoFrame() {
         initComponents();
+    }
+    
+    public ConvoFrame(Request r, int selection) {
+    	req = r;
+    	reqSelection = selection;
+    	initComponents();
     }
     
     private void initComponents() {
@@ -40,20 +46,14 @@ public class ReqConvoFrame extends JFrame {
         
         convoList = new ConvoJList();
         lowerButtonPanel = new ConvoLowerButtonPanel();
-        listModel = new DefaultListModel();
-        
-        convoList = new ConvoJList();
-        convoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        convoList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        convoList.setVisibleRowCount(-1);
-        //convoList.addListSelectionListener(this);
         
         System.out.println("Created Conversation List");
         
-        listScroller = new JScrollPane(convoList);
         
-        listScroller.setPreferredSize(new Dimension(500, 200));
-        lowerButtonPanel.setPreferredSize(new Dimension(500, 20));
+        
+        
+        convoList.setPreferredSize(new Dimension(500, 500));
+        lowerButtonPanel.setPreferredSize(new Dimension(500, 100));
         
 	    	//set new grid bag constraints
 	        gbc = new GridBagConstraints();
@@ -64,8 +64,9 @@ public class ReqConvoFrame extends JFrame {
 	        gbc.gridy = 0;
 	        //gbc.ipadx = 5;
 	        //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
-	        gbc.anchor = gbc.PAGE_START; 
-        this.add(listScroller, gbc);
+	        gbc.fill = GridBagConstraints.BOTH;
+	        gbc.anchor = GridBagConstraints.PAGE_START; 
+        this.add(convoList, gbc);
         
 	      	//set new grid bag constraints
 	        gbc = new GridBagConstraints();
@@ -75,13 +76,34 @@ public class ReqConvoFrame extends JFrame {
 	        gbc.gridx = 0;
 	        gbc.gridy = 2;
 	        //gbc.ipadx = 5;
-	        gbc.insets = new Insets(10,10,20,10); //top, left, bottom, right
-	        gbc.anchor = gbc.PAGE_END; 
+	        //gbc.insets = new Insets(0,0,10,0); //top, left, bottom, right
+	        gbc.anchor = GridBagConstraints.PAGE_END; 
         this.add(lowerButtonPanel, gbc);
         
+        convoList.initMe();
         lowerButtonPanel.initMe();
         
         System.out.println("added both panels");
         this.repaint();
     }
+
+    
+    
+    public Request getRequest() {
+    	return req;
+    }
+    
+    public UUID getConvoID() {
+    	return req.getConvoID();
+    }
+    
+    public int getSelection() {
+    	return reqSelection;
+    }
+    
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		this.repaint();
+		
+	}
 }

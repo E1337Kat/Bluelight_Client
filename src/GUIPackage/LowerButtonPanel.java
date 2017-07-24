@@ -2,10 +2,11 @@ package GUIPackage;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class LowerButtonPanel extends JPanel {
@@ -13,6 +14,7 @@ public class LowerButtonPanel extends JPanel {
 	 // Variables declaration 
     private JButton otherButton;
     private JButton selectConvoButton;
+    private int jListSelection;
     // End of variables declaration
     
     /**
@@ -45,7 +47,7 @@ public class LowerButtonPanel extends JPanel {
         this.setLayout(gridBag);
         
         //Row One
-        selectConvoButton.setText("Select");
+        selectConvoButton.setText("<html><u>S</u>elect</html>");
         selectConvoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -58,16 +60,16 @@ public class LowerButtonPanel extends JPanel {
             gbc.gridwidth = 2;
             gbc.gridx = 0;
             //gbc.gridy = 0;
-            //gbc.ipadx = 5;
-            gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_START; 
+            //gbc.ipady = 10;
+            //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
+            gbc.anchor = GridBagConstraints.LINE_START; 
         this.add(selectConvoButton, gbc);
         
-        otherButton.setText("other?");
+        otherButton.setText("<html><u>E</u>xit</html>");
         otherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                otherButtonActionPerformed(evt);
+                exitButtonActionPerformed(evt);
             }
         });
         	//set new grid bag constraints
@@ -76,14 +78,18 @@ public class LowerButtonPanel extends JPanel {
             gbc.gridwidth = 2;
             gbc.gridx = 2;
             //gbc.gridy = 0;
-            //gbc.ipadx = 5;
-            gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
-            gbc.anchor = gbc.LINE_END; 
+            //gbc.ipady = 10;
+            //gbc.insets = new Insets(10,5,5,10); //top, left, bottom, right
+            gbc.anchor = GridBagConstraints.LINE_END; 
         this.add(otherButton, gbc);
         
         
         //setOpaque(false);
     }    
+    
+    public JButton getSelectButton() {
+    	return selectConvoButton;
+    }
     
     /***ACTION LISTENERS***/
     
@@ -92,14 +98,37 @@ public class LowerButtonPanel extends JPanel {
      * @param evt idk lol
      */
     private void selectConvoButtonActionPerformed(ActionEvent evt) {
-    	//TODO: select Conversation
+    	/* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                ConvoFrame convoFrame = new ConvoFrame(ReqListModel.getModel().getRequestList().get((int) getSelection()), getSelection());
+                //ReqListFrame.setIconImage(img.getImage());
+                convoFrame.setTitle("Request #" + ReqListModel.getModel().getRequestList().get((int) getSelection()).getConvoID().toString());
+                convoFrame.setLocationByPlatform(true);
+                convoFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                convoFrame.pack();
+                
+                convoFrame.setVisible(true);
+            }
+        });
     }
 
     /**
      * Action event for button press
      * @param evt idk lol
      */
-    private void otherButtonActionPerformed(ActionEvent evt) {
-        //TODO: confirmation dialog, if yes, delete, else do nothing
+    private void exitButtonActionPerformed(ActionEvent evt) {
+        JFrame parent = (JFrame) this.getTopLevelAncestor();
+        parent.setVisible(false);
     }
+
+	public void setSelection(int selectedIndex) {
+		jListSelection = selectedIndex;	
+		System.out.println(selectedIndex);
+	}
+	
+	public int getSelection() {
+		return jListSelection;
+	}
 }

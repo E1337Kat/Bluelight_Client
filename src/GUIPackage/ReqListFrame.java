@@ -7,12 +7,14 @@ package GUIPackage;
 
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import Backend.Request;
 
 /**
  *
@@ -21,9 +23,7 @@ import javax.swing.event.ListSelectionListener;
 public class ReqListFrame extends JFrame 
                           implements ListSelectionListener {
     
-    private JList<ArrayList<String>> list;
-    private DefaultListModel listModel;
-    private JScrollPane listScroller;
+    private ReqJList<Request> list;
     private LowerButtonPanel lowerButtonPanel;
     
     /**
@@ -44,19 +44,17 @@ public class ReqListFrame extends JFrame
         
         GridBagConstraints gbc;
         
-        listModel = new DefaultListModel();
-        
-        list = new JList(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        list.setVisibleRowCount(-1);
+        list = new ReqJList<Request>();
+        //list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //list.setLayoutOrientation(JList.VERTICAL);
+        //list.setVisibleRowCount(-1);
         list.addListSelectionListener(this);
         
         System.out.println("Created JList");
         
-        listScroller = new JScrollPane(list);
+        //listScroller = new JScrollPane(list);
         
-        listScroller.setPreferredSize(new Dimension(500, 200));
+        list.setPreferredSize(new Dimension(500, 500));
         lowerButtonPanel.setPreferredSize(new Dimension(500, 20));
         
 	    	//set new grid bag constraints
@@ -68,8 +66,8 @@ public class ReqListFrame extends JFrame
 	        gbc.gridy = 0;
 	        //gbc.ipadx = 5;
 	        //gbc.insets = new Insets(10,10,5,5); //top, left, bottom, right
-	        gbc.anchor = gbc.PAGE_START; 
-        this.add(listScroller, gbc);
+	        gbc.anchor = GridBagConstraints.PAGE_START; 
+        this.add(list, gbc);
         
 	      	//set new grid bag constraints
 	        gbc = new GridBagConstraints();
@@ -79,27 +77,46 @@ public class ReqListFrame extends JFrame
 	        gbc.gridx = 0;
 	        gbc.gridy = 2;
 	        //gbc.ipadx = 5;
-	        gbc.insets = new Insets(10,10,20,10); //top, left, bottom, right
-	        gbc.anchor = gbc.PAGE_END; 
+	        //gbc.insets = new Insets(0,0,10,0); //top, left, bottom, right
+	        //gbc.anchor = GridBagConstraints.PAGE_END; 
         this.add(lowerButtonPanel, gbc);
         
         lowerButtonPanel.initMe();
         
-        
+        this.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				focusedOnFrame(arg0);
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {}
+        });
         System.out.println("added both panels");
+        list.refresh();
         this.repaint();
     }
+    
     
     //This method is required by ListSelectionListener.
     public void valueChanged(ListSelectionEvent e) {
         if (e.getValueIsAdjusting() == false) {
  
             if (list.getSelectedIndex() == -1) {
-            
- 
+            	lowerButtonPanel.getSelectButton().setEnabled(false);
+            	this.revalidate();
+            	this.repaint();
             } else {
-            
+            	lowerButtonPanel.setSelection(list.getSelectedIndex());
+            	
             }
         }
+    }
+    
+    public void focusedOnFrame(FocusEvent e) {
+    	System.out.println("Refreshing list");
+		list.refresh();
+		this.revalidate();
+		this.repaint();
     }
 }
