@@ -32,9 +32,12 @@ import org.glassfish.tyrus.client.ClientManager;
  */
 public class Client {
 
-    public static final String SERVER = "ws://localhost:8025/ws/chat";
+    public static final String SERVER = "wss://localhost:8025/wss/chat";
 
-    public static void main(String[] args) throws DeploymentException, URISyntaxException {
+    public static void main(String[] args) throws 
+                                            DeploymentException, 
+                                            URISyntaxException 
+    {
         ClientManager client = ClientManager.createClient();
 
         // connect to server
@@ -42,7 +45,11 @@ public class Client {
         System.out.println("Welcome to Tiny Chat!");
         System.out.println("What's your name?");
         String user = scanner.nextLine();
-        Session session = client.connectToServer(ClientEndpoint.class, new URI(SERVER));
+        Session session = client.connectToServer(
+                                                ClientEndpoint.class, 
+                                                new URI(SERVER + 
+                                                        "/" + 
+                                                        user));
         System.out.println("You are logged in as: " + user);
 
         // repeatedly read a message and send it to the server (until quit)
@@ -50,9 +57,13 @@ public class Client {
             while (true) {
                 String message = scanner.nextLine();
                 try {
-                    session.getBasicRemote().sendText(formatMessage(message, user, 0));
+                    session.getBasicRemote().sendText(formatMessage(message, 
+                                                                    user, 
+                                                                    0));
                 } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, 
+                                                                 null, 
+                                                                 ex);
                 }
                 if (message.equalsIgnoreCase("quit")) {
                     break;

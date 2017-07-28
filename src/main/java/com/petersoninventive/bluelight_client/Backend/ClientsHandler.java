@@ -42,7 +42,8 @@ import javax.websocket.Session;
 @javax.websocket.server.ServerEndpoint(value = "/chat", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class ClientsHandler {
     
-     static Set<Session> peers = Collections.synchronizedSet(new HashSet<Session>());
+    static Set<Session> peers = Collections.synchronizedSet(new HashSet<Session>());
+    
     
     @OnOpen
     public void onOpen(Session session) {

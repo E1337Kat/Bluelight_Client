@@ -16,6 +16,7 @@
 package com.petersoninventive.bluelight_client.DataModels;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -24,12 +25,14 @@ import java.util.Date;
 public class Message {
     private String body;
     private String sender;
+    private UUID convoID;
     private long encrypted_verificator;
     private Date recieved;
     
-    public Message(String b, String s, long v, Date r) {
+    public Message(String b, String s, UUID id, long v, Date r) {
         this.body = b;
         this.sender = s;
+        this.convoID = id;
         this.encrypted_verificator = v;
         this.recieved = r;
     }
@@ -47,6 +50,10 @@ public class Message {
         return this.sender;
     }
     
+    public UUID getConvoID() {
+        return this.convoID;
+    }
+    
     public long getVerification() {
         return this.encrypted_verificator;
     }
@@ -62,6 +69,10 @@ public class Message {
     
     public void setSender(String s) {
         this.sender = s;
+    }
+    
+    public void setConvoID(UUID id) {
+        this.convoID = id;
     }
     
     public void setVerification(long v) {
