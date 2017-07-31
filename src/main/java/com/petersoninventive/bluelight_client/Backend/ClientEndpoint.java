@@ -19,6 +19,8 @@ import com.petersoninventive.bluelight_client.DataModels.Message;
 import com.petersoninventive.bluelight_client.DataModels.MessageDecoder;
 import com.petersoninventive.bluelight_client.DataModels.MessageEncoder;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -29,11 +31,12 @@ import javax.websocket.Session;
  */
 @javax.websocket.ClientEndpoint(encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class ClientEndpoint {
+    Logger log = Logger.getLogger(ClientEndpoint.class.getName());
     private SimpleDateFormat sDF = new SimpleDateFormat();
     
     @OnMessage
     public void onMessage(Message message) {
-        System.out.println(String.format("[%s:%s] %s :VERIFY: %d", 
+        log.log(Level.INFO, String.format("[%s:%s] %s :VERIFY: %d", 
                 sDF.format(message.getReceived()), 
                 message.getSender(),
                 message.getBody(),
@@ -42,6 +45,6 @@ public class ClientEndpoint {
     
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println(String.format("Connection established. session id: %s", session.getId()));
+        log.log(Level.INFO, String.format("Connection established. session id: %s", session.getId()));
     }
 }

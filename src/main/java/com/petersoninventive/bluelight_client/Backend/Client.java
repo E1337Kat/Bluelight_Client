@@ -32,7 +32,8 @@ import org.glassfish.tyrus.client.ClientManager;
  */
 public class Client {
 
-    public static final String SERVER = "wss://localhost:8025/wss/chat";
+    public static final String SERVER = "ws://localhost:8025/wss/chat";
+    public static String user = "dispatch";
 
     public static void main(String[] args) throws 
                                             DeploymentException, 
@@ -42,29 +43,19 @@ public class Client {
 
         // connect to server
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to Tiny Chat!");
-        System.out.println("What's your name?");
-        String user = scanner.nextLine();
+        System.out.println("Welcome to Bluelight Dispatch!");
         Session session = client.connectToServer(
                                                 ClientEndpoint.class, 
-                                                new URI(SERVER + 
-                                                        "/" + 
-                                                        user));
+                                                new URI(SERVER));
         System.out.println("You are logged in as: " + user);
 
         // repeatedly read a message and send it to the server (until quit)
         new Thread(() -> {
             while (true) {
                 String message = scanner.nextLine();
-                try {
-                    session.getBasicRemote().sendText(formatMessage(message, 
-                                                                    user, 
-                                                                    0));
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, 
-                                                                 null, 
-                                                                 ex);
-                }
+                session.getAsyncRemote().sendText(formatMessage(message, 
+                                                                user, 
+                                                                0));
                 if (message.equalsIgnoreCase("quit")) {
                     break;
                 }
@@ -72,11 +63,13 @@ public class Client {
         }).start();
         
     }
-
+    
     private static String formatMessage(String body, String user, long verification) {
         return Json.createObjectBuilder()
                 .add("body", body)
                 .add("sender", user)
+                .add("convo_id", 1)
+                .add("user_id", 1)
                 .add("verification", verification)
                 .add("received", "")
                 .build().toString();
